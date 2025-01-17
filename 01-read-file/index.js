@@ -1,3 +1,4 @@
+const process = require('node:process');
 const fileStream = require('node:fs');
 const path = require('node:path');
 const txtLocation = __dirname;
@@ -12,9 +13,24 @@ function readTxtFiles(targetPath) {
       if (fileExtension === 'txt') {
         const fileBase = path.parse(file).base;
         const locationOfFile = path.join(targetPath, fileBase);
-        console.log(locationOfFile);
+        readFile(locationOfFile);
       }
     });
+  });
+}
+
+function readFile(locationOfFile) {
+  let result = '';
+  const readFileStream = fileStream.createReadStream(locationOfFile, 'utf8');
+  readFileStream.on('data', (data) => {
+    result += data;
+  });
+  readFileStream.on('end', () => {
+    process.stdout.write('\n' + result + '\n');
+    readFileStream.close();
+  });
+  readFileStream.on('error', (error) => {
+    console.log('Error', error.message);
   });
 }
 
