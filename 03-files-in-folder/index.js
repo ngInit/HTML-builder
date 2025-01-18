@@ -1,3 +1,4 @@
+const process = require('node:process');
 const fileStream = require('node:fs');
 const path = require('node:path');
 
@@ -12,7 +13,18 @@ function checkFiles(filesPath) {
     }
     files.forEach((file) => {
       const objectPath = path.join(targetPath, file);
+      checkIsFile(objectPath);
     });
+  });
+}
+
+function checkIsFile(objectPath) {
+  fileStream.stat(objectPath, (error, stats) => {
+    if (error) {
+      console.log('Error:', error.message);
+    }
+    if (!stats.isDirectory()) {
+    }
   });
 }
 checkFiles(targetPath);
