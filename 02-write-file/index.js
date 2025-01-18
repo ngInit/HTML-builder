@@ -43,4 +43,12 @@ function addDataToFile(fullPath, data) {
   });
 }
 
+process.on('SIGINT', () => {
+  stdout.write('\n');
+  process.exit();
+});
+process.on('exit', () => {
+  console.log('We have finished! Bye-Bye!');
+});
+
 writeToFile(locationOfFile, fileName);
