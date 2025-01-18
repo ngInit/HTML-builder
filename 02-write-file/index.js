@@ -28,11 +28,19 @@ function writeToFile(fileLocation, fileName = 'new_file') {
       if (data.toString().trim().toLowerCase() === 'exit') {
         process.exit();
       } else {
-        console.log(fullPath, data);
+        addDataToFile(fullPath, data);
       }
     });
   });
   return null;
+}
+
+function addDataToFile(fullPath, data) {
+  const inputData = data.toString().trim();
+  const writeFileStream = fileStream.createWriteStream(fullPath, writeOptions);
+  writeFileStream.write(inputData + '\n', () => {
+    stdout.write('Add new text:\n');
+  });
 }
 
 writeToFile(locationOfFile, fileName);
