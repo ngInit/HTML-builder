@@ -24,7 +24,21 @@ function checkIsFile(objectPath) {
       console.log('Error:', error.message);
     }
     if (!stats.isDirectory()) {
+      showFileInfo(objectPath, stats);
     }
   });
 }
+
+function showFileInfo(file, stats) {
+  const result = [];
+  const divider = ' - ';
+  const measurement = 'kB';
+  const fileInfo = path.parse(file);
+  const fileName = fileInfo.name;
+  const fileExt = fileInfo.ext.slice(1);
+  const fileSize = stats.size / 1000;
+  result.push(fileName, fileExt, fileSize);
+  process.stdout.write(result.join(divider) + measurement + '\n');
+}
+
 checkFiles(targetPath);
