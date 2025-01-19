@@ -10,16 +10,18 @@ function copyDir(copyFrom, copyTo) {
 }
 
 function createDirectory(copyFrom, copyTo) {
-  fileStream.mkdir(copyTo, (error) => {
+  fileStream.rm(copyTo, { recursive: true }, (error) => {
     const rootName = path.dirname(copyTo);
     const dirName = path.basename(copyTo);
-    if (error) {
-      console.log(`Directory ${dirName} exists in ${rootName}`);
+    if (!error) {
+      console.log(`Directory ${dirName} updated in ${rootName}`);
     } else {
       console.log(`Directory ${dirName} created in ${rootName}`);
     }
+    fileStream.mkdir(copyTo, { recursive: true }, () => {
+      collectFiles(copyFrom, copyTo);
+    });
   });
-  collectFiles(copyFrom, copyTo);
 }
 
 function collectFiles(collectFrom, newDirPath) {
