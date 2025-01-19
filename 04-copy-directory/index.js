@@ -36,8 +36,21 @@ function collectFiles(collectFrom, newDirPath) {
       const fileBase = path.parse(file).base;
       const originalFileLocation = path.join(collectFrom, fileBase);
       const targetFileLocation = path.join(newDirPath, fileBase);
-      copyFile(originalFileLocation, targetFileLocation);
+      checkIsFile(originalFileLocation, targetFileLocation);
     });
+  });
+}
+
+function checkIsFile(originalFileLocation, targetFileLocation) {
+  fileStream.stat(originalFileLocation, (error, stats) => {
+    if (error) {
+      console.log('Error:', error.message);
+    }
+    if (!stats.isDirectory()) {
+      copyFile(originalFileLocation, targetFileLocation);
+    } else {
+      createDirectory(originalFileLocation, targetFileLocation);
+    }
   });
 }
 
