@@ -1,9 +1,7 @@
 const fileStream = require('node:fs');
 const path = require('node:path');
 
-const sourceDir = 'styles';
-const targetDir = 'project-dist';
-const targetName = 'bundle';
+let targetName = 'bundle';
 
 let mapOfCss = new Map();
 const readOptions = {
@@ -18,10 +16,9 @@ const writeOptions = {
   encoding: 'utf8',
 };
 
-function buildCSS(sourceCss, targetCss) {
-  const pathWithSources = path.join(__dirname, sourceCss);
-  const pathForResult = path.join(__dirname, targetCss);
-  collectAllCSS(pathWithSources, pathForResult);
+function buildCSS(sourceCss, targetCss, targetCssName) {
+  targetName = targetCssName;
+  collectAllCSS(sourceCss, targetCss);
 }
 
 function collectAllCSS(sourcesPath, targetPath) {
@@ -80,4 +77,6 @@ function mergeCss(mapOfCss, outputFilePath) {
   console.log('Done!');
 }
 
-buildCSS(sourceDir, targetDir);
+module.exports = {
+  buildCSS,
+};
