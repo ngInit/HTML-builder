@@ -8,7 +8,7 @@ const writeOptions = {
   flags: 'w',
 };
 
-function makeCopyOfDir(copyFrom, copyTo) {
+function copyDir(copyFrom, copyTo) {
   const dirForCopy = path.join(__dirname, copyFrom);
   const newDirPath = path.join(__dirname, copyTo);
   createDirectory(dirForCopy, newDirPath);
@@ -77,4 +77,4 @@ function showInfo(origFilePath, newFilePath) {
   console.log(`Copying from ${origPath}  to  ${targetPath} done!`);
 }
 
-makeCopyOfDir(originalDirectory, newDirectory);
+copyDir(originalDirectory, newDirectory);
