@@ -3,8 +3,13 @@ const path = require('node:path');
 
 const sourceDir = 'styles';
 const targetDir = 'project-dist';
+const targetName = 'bundle';
 
 let mapOfCSS = new Map();
+const createFileOptions = {
+  flags: 'w',
+  encoding: 'utf8',
+};
 
 function buildCSS(sourceCSS, targetCSS) {
   const pathWithSources = path.join(__dirname, sourceCSS);
@@ -26,6 +31,22 @@ function collectAllCSS(sourcesPath, targetPath) {
         mapOfCSS.set(fileName, locationOfFile);
       }
     });
+    createOutputFile(mapOfCss, targetPath);
+  });
+}
+
+function createOutputFile(mapOfCss, targetPath) {
+  const outputFilePath = path.join(targetPath, targetName + '.css');
+  const makeFileStream = fileStream.createWriteStream(
+    outputFilePath,
+    createFileOptions,
+  );
+  makeFileStream.write('', (error) => {
+    if (error) {
+      console.log('Error:', error.message);
+    } else {
+      makeFileStream.close();
+    }
   });
 }
 
