@@ -6,8 +6,15 @@ const targetDir = 'project-dist';
 const targetName = 'bundle';
 
 let mapOfCss = new Map();
+const readOptions = {
+  encoding: 'utf8',
+};
 const createFileOptions = {
   flags: 'w',
+  encoding: 'utf8',
+};
+const writeOptions = {
+  flags: 'a',
   encoding: 'utf8',
 };
 
@@ -48,6 +55,29 @@ function createOutputFile(mapOfCss, targetPath) {
       makeFileStream.close();
     }
   });
+  makeFileStream.on('finish', () => {
+    mergeCss(mapOfCss, outputFilePath);
+  });
+}
+
+function mergeCss(mapOfCss, outputFilePath) {
+  mapOfCss.forEach((filePath, key) => {
+    const readFileStream = fileStream.createReadStream(filePath, readOptions);
+    const writeFileStream = fileStream.createWriteStream(
+      outputFilePath,
+      writeOptions,
+    );
+    mapOfCss.delete(key);
+    const endOfLine = mapOfCss.size ? '\n' : '';
+    readFileStream.on('data', (data) => {
+      writeFileStream.write(data + endOfLine);
+      readFileStream.close();
+    });
+    readFileStream.on('close', () => {
+      writeFileStream.close();
+    });
+  });
+  console.log('Done!');
 }
 
 buildCSS(sourceDir, targetDir);
