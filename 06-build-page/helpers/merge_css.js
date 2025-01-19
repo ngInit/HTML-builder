@@ -72,8 +72,8 @@ function mergeCss(mapOfCss, outputFilePath) {
     writeFileStream.on('finish', () => {
       readFileStream.close();
     });
-  console.log('Done!');
   });
+  console.log('Done! CSS files merged!');
 }
 
 module.exports = {
