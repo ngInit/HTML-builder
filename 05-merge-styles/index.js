@@ -5,15 +5,15 @@ const sourceDir = 'styles';
 const targetDir = 'project-dist';
 const targetName = 'bundle';
 
-let mapOfCSS = new Map();
+let mapOfCss = new Map();
 const createFileOptions = {
   flags: 'w',
   encoding: 'utf8',
 };
 
-function buildCSS(sourceCSS, targetCSS) {
-  const pathWithSources = path.join(__dirname, sourceCSS);
-  const pathForResult = path.join(__dirname, targetCSS);
+function buildCSS(sourceCss, targetCss) {
+  const pathWithSources = path.join(__dirname, sourceCss);
+  const pathForResult = path.join(__dirname, targetCss);
   collectAllCSS(pathWithSources, pathForResult);
 }
 
@@ -27,8 +27,8 @@ function collectAllCSS(sourcesPath, targetPath) {
       const fileName = path.parse(file).name;
       if (fileExtension === 'css') {
         const fileBase = path.parse(file).base;
-        const locationOfFile = path.join(targetPath, fileBase);
-        mapOfCSS.set(fileName, locationOfFile);
+        const locationOfFile = path.join(sourcesPath, fileBase);
+        mapOfCss.set(fileName, locationOfFile);
       }
     });
     createOutputFile(mapOfCss, targetPath);
