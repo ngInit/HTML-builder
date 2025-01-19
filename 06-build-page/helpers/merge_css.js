@@ -68,13 +68,12 @@ function mergeCss(mapOfCss, outputFilePath) {
     const endOfLine = mapOfCss.size ? '\n' : '';
     readFileStream.on('data', (data) => {
       writeFileStream.write(data + endOfLine);
+    });
+    writeFileStream.on('finish', () => {
       readFileStream.close();
     });
-    readFileStream.on('close', () => {
-      writeFileStream.close();
-    });
-  });
   console.log('Done!');
+  });
 }
 
 module.exports = {
