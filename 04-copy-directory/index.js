@@ -51,7 +51,17 @@ function copyFile(origFilePath, newFilePath) {
   writeStream.on('finish', () => {
     readStream.close();
   });
+  readStream.on('close', () => {
+    showInfo(origFilePath, newFilePath);
+  });
 }
 
+function showInfo(origFilePath, newFilePath) {
+  let origPath = path.relative(newFilePath, origFilePath);
+  let targetPath = path.relative(origFilePath, newFilePath);
+  origPath = origPath.replaceAll(`..${path.sep}`, '');
+  targetPath = targetPath.replaceAll(`..${path.sep}`, '');
+  console.log(`Copying from ${origPath}  to  ${targetPath} done!`);
+}
 
 makeCopyOfDir(originalDirectory, newDirectory);
