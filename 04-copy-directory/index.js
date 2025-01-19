@@ -4,6 +4,10 @@ const path = require('node:path');
 const originalDirectory = 'files';
 const newDirectory = 'files-copy';
 
+const writeOptions = {
+  flags: 'w',
+};
+
 function makeCopyOfDir(copyFrom, copyTo) {
   const dirForCopy = path.join(__dirname, copyFrom);
   const newDirPath = path.join(__dirname, copyTo);
@@ -32,7 +36,20 @@ function collectFiles(collectFrom, newDirPath) {
       const fileBase = path.parse(file).base;
       const originalFileLocation = path.join(collectFrom, fileBase);
       const targetFileLocation = path.join(newDirPath, fileBase);
+      copyFile(originalFileLocation, targetFileLocation);
     });
+  });
+}
+
+function copyFile(origFilePath, newFilePath) {
+  const readStream = fileStream.createReadStream(origFilePath);
+  const writeStream = fileStream.createWriteStream(newFilePath, writeOptions);
+  readStream.on('data', (data) => {
+    writeStream.write(data);
+    writeStream.close();
+  });
+  writeStream.on('finish', () => {
+    readStream.close();
   });
 }
 
