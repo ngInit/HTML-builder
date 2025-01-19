@@ -1,17 +1,12 @@
 const fileStream = require('node:fs');
 const path = require('node:path');
 
-const originalDirectory = 'files';
-const newDirectory = 'files-copy';
-
 const writeOptions = {
   flags: 'w',
 };
 
 function copyDir(copyFrom, copyTo) {
-  const dirForCopy = path.join(__dirname, copyFrom);
-  const newDirPath = path.join(__dirname, copyTo);
-  createDirectory(dirForCopy, newDirPath);
+  createDirectory(copyFrom, copyTo);
 }
 
 function createDirectory(copyFrom, copyTo) {
@@ -77,4 +72,6 @@ function showInfo(origFilePath, newFilePath) {
   console.log(`Copying from ${origPath}  to  ${targetPath} done!`);
 }
 
-copyDir(originalDirectory, newDirectory);
+module.exports = {
+  copyDir,
+};
