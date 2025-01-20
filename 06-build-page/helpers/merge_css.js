@@ -16,12 +16,12 @@ const writeOptions = {
   encoding: 'utf8',
 };
 
-function buildCSS(sourceCss, targetCss, targetCssName) {
+function buildCss(sourceCss, targetCss, targetCssName) {
   targetName = targetCssName;
-  collectAllCSS(sourceCss, targetCss);
+  collectAllCss(sourceCss, targetCss);
 }
 
-function collectAllCSS(sourcesPath, targetPath) {
+function collectAllCss(sourcesPath, targetPath) {
   fileStream.readdir(sourcesPath, (error, files) => {
     if (error || !files.length) {
       throw error;
@@ -77,5 +77,5 @@ function mergeCss(mapOfCss, outputFilePath) {
 }
 
 module.exports = {
-  buildCSS,
+  buildCss,
 };
