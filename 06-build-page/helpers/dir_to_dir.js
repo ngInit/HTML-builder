@@ -56,7 +56,6 @@ function copyFile(origFilePath, newFilePath) {
   const writeStream = fileStream.createWriteStream(newFilePath, writeOptions);
   readStream.on('data', (data) => {
     writeStream.write(data);
-    writeStream.close();
   });
   writeStream.on('finish', () => {
     readStream.close();
