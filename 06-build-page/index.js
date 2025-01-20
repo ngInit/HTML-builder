@@ -1,5 +1,6 @@
 const { copyDir } = require('./helpers/dir_to_dir.js');
 const { buildCSS } = require('./helpers/merge_css.js');
+const { getBuildConfig } = require('./helpers/build_paths.js');
 const EventEmitter = require('node:events');
 const emitter = new EventEmitter();
 
@@ -13,16 +14,14 @@ const buildConfig = {
   targetHtml: 'index.html',
 };
 
-emitter.on('dir', () => {
-  copyDir(rootAssetsPath, targetAssetsPath);
-  emitter.emit('css');
-});
-emitter.on('css', () => {
-  buildCSS(rootCssPath, targetCssPath, targetCssName);
-  emitter.emit('components');
-});
-emitter.on('components', () => {
-  collectData(rootHtmlPath, rootComponentsPath);
+emitter.on('start', (config) => {
+  copyDir(config.rootAssetsPath, config.targetAssetsPath);
+  emitter.emit('css', config);
 });
 
-emitter.emit('dir');
+emitter.on('css', (config) => {
+});
+
+emitter.on('components', (config) => {
+});
+emitter.emit('start', getBuildConfig(buildConfig));
