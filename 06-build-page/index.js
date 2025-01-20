@@ -10,6 +10,7 @@ const assetsDir = 'assets';
 const cssDir = 'styles';
 const baseHtml = 'template.html';
 const targetCssName = 'style';
+const targetHtml = 'index.html';
 
 let tempHtml = '';
 const rootComponentsPath = path.join(__dirname, componentsDir);
@@ -60,6 +61,7 @@ function addComponentsToHtml(mapOfComponents) {
       insertComponent(componentName, componentHtml);
     });
     readComponent.on('end', () => {
+      addNewHtml();
     });
   });
 }
@@ -69,6 +71,11 @@ function insertComponent(componentName, componentHtml) {
   tempHtml = tempHtml.replaceAll(findInterpolation, componentHtml);
 }
 
+function addNewHtml() {
+  const targetHtmlPath = path.join(targetPath, targetHtml);
+  const writeStream = fileStream.createWriteStream(targetHtmlPath);
+  writeStream.write(tempHtml);
+}
 
 emitter.on('dir', () => {
   copyDir(rootAssetsPath, targetAssetsPath);
