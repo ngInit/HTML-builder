@@ -5,6 +5,7 @@ const fileStream = require('node:fs');
 const path = require('node:path');
 
 const targetDirectoryName = 'project-dist';
+const componentsDir = 'components';
 const assetsDir = 'assets';
 const cssDir = 'styles';
 const baseHtml = 'template.html';
@@ -20,6 +21,7 @@ const targetPath = path.join(__dirname, targetDirectoryName);
 const targetAssetsPath = path.join(targetPath, assetsDir);
 const targetCssPath = targetPath;
 
+let mapOfComponents = new Map();
 const emitter = new EventEmitter();
 
 function collectData(rootHtmlPath, rootComponentsPath) {
@@ -31,8 +33,23 @@ function collectData(rootHtmlPath, rootComponentsPath) {
     tempHtml = data.toString();
   });
   originalHtmlTemplate.on('end', () => {
+    collectComponents(rootComponentsPath);
   });
 }
+
+function collectComponents(componentsPath) {
+  fileStream.readdir(componentsPath, (error, components) => {
+    if (error || !components.length) {
+      console.log('Error:', error.message);
+    }
+    components.forEach((component) => {
+      const componentPath = path.join(componentsPath, component);
+      const componentName = path.parse(component).name;
+      mapOfComponents.set(componentName, componentPath);
+    });
+  });
+}
+
 
 emitter.on('dir', () => {
   copyDir(rootAssetsPath, targetAssetsPath);
