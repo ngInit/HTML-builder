@@ -3,7 +3,15 @@ const { buildCSS } = require('./helpers/merge_css.js');
 const EventEmitter = require('node:events');
 const emitter = new EventEmitter();
 
-
+const buildConfig = {
+  targetDirectoryName: 'project-dist',
+  componentsDir: 'components',
+  assetsDir: 'assets',
+  cssDir: 'styles',
+  baseHtml: 'template.html',
+  targetCssName: 'style',
+  targetHtml: 'index.html',
+};
 
 emitter.on('dir', () => {
   copyDir(rootAssetsPath, targetAssetsPath);
