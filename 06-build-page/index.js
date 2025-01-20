@@ -20,6 +20,8 @@ emitter.on('start', (config) => {
 });
 
 emitter.on('css', (config) => {
+  buildCSS(config.rootCssPath, config.targetCssPath, config.targetCssName);
+  emitter.emit('components', config);
 });
 
 emitter.on('components', (config) => {
