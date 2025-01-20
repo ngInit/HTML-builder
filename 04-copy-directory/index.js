@@ -23,9 +23,9 @@ function createDirectory(copyFrom, copyTo) {
     } else {
       console.log(`Directory ${dirName} created in ${rootName}`);
     }
-  });
-  fileStream.mkdir(copyTo, { recursive: true }, () => {
-    collectFiles(copyFrom, copyTo);
+    fileStream.mkdir(copyTo, { recursive: true }, () => {
+      collectFiles(copyFrom, copyTo);
+    });
   });
 }
 
