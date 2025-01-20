@@ -1,7 +1,7 @@
-const { copyDir } = require('./helpers/dir_to_dir.js');
-const { buildCss } = require('./helpers/merge_css.js');
-const { buildHtml } = require('./helpers/merge_html.js');
-const { getBuildConfig } = require('./helpers/build_paths.js');
+const { copyDir } = require('./dir_to_dir.js');
+const { buildCss } = require('./merge_css.js');
+const { buildHtml } = require('./merge_html.js');
+const { getBuildConfig } = require('./build_paths.js');
 const EventEmitter = require('node:events');
 const emitter = new EventEmitter();
 
