@@ -47,7 +47,26 @@ function collectComponents(componentsPath) {
       const componentName = path.parse(component).name;
       mapOfComponents.set(componentName, componentPath);
     });
+    addComponentsToHtml(mapOfComponents);
   });
+}
+
+function addComponentsToHtml(mapOfComponents) {
+  mapOfComponents.forEach((componentPath, componentName) => {
+    let componentHtml = '';
+    const readComponent = fileStream.createReadStream(componentPath, 'utf8');
+    readComponent.on('data', (data) => {
+      componentHtml = data.toString().trim();
+      insertComponent(componentName, componentHtml);
+    });
+    readComponent.on('end', () => {
+    });
+  });
+}
+
+function insertComponent(componentName, componentHtml) {
+  const findInterpolation = new RegExp('{{' + componentName + '}}', 'g');
+  tempHtml = tempHtml.replaceAll(findInterpolation, componentHtml);
 }
 
 
