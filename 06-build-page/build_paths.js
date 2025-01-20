@@ -29,7 +29,7 @@ function setBuildConfig(config) {
 }
 
 function setPaths() {
-  rootDir = path.parse(__dirname).dir;
+  rootDir = __dirname;
   rootComponentsPath = path.join(rootDir, componentsDir);
   rootAssetsPath = path.join(rootDir, assetsDir);
   rootCssPath = path.join(rootDir, cssDir);
