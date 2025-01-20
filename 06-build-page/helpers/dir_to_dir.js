@@ -6,7 +6,9 @@ const writeOptions = {
 };
 
 function copyDir(copyFrom, copyTo) {
-  createDirectory(copyFrom, copyTo);
+  fileStream.mkdir(copyTo, { recursive: true }, () => {
+    createDirectory(copyFrom, copyTo);
+  });
 }
 
 function createDirectory(copyFrom, copyTo) {
