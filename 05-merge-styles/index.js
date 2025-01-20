@@ -71,10 +71,9 @@ function mergeCss(mapOfCss, outputFilePath) {
     const endOfLine = mapOfCss.size ? '\n' : '';
     readFileStream.on('data', (data) => {
       writeFileStream.write(data + endOfLine);
-      readFileStream.close();
     });
-    readFileStream.on('close', () => {
-      writeFileStream.close();
+    writeFileStream.on('finish', () => {
+      readFileStream.close();
     });
   });
   console.log('Done!');
